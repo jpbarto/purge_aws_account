@@ -10,7 +10,7 @@ variable "aws_account_id" {
 
 variable "stack_name" {
   description = "The name prefix to be given to all created resources"
-  default     = "purge"
+  default     = "wipeit"
 }
 
 ########

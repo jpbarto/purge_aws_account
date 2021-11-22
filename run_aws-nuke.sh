@@ -29,7 +29,7 @@ cat /tmp/aws-nuke.conf
 echo "END OF FILE"
 
 echo "Running aws-nuke..."
-timeout -s 9 7200 aws-nuke --force --no-dry-run \
+timeout -s 9 14400 aws-nuke --force --no-dry-run \
     -c /tmp/aws-nuke.conf \
     --profile default
 
