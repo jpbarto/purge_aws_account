@@ -1,17 +1,33 @@
-provider "aws" {}
-
-data "aws_region" "current" {}
-
+######
+##
+## VARIABLES
+## 
+######
 variable "aws_account_id" {
   description = "The target AWS account number"
-  default = "123456789012"
+  default     = "123456789012"
 }
 
 variable "stack_name" {
   description = "The name prefix to be given to all created resources"
-  default = "purge"
+  default     = "purge"
 }
 
+########
+##
+## CONFIGURATION
+##
+########
+
+provider "aws" {}
+
+data "aws_region" "current" {}
+
+########
+## 
+## RESOURCES
+##
+########
 resource "aws_iam_role" "purge_role" {
   name = "${var.stack_name}-PURGERole"
 
@@ -36,7 +52,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "purge_admin_permissions" {
-  role       = "${aws_iam_role.purge_role.name}"
+  role       = aws_iam_role.purge_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
@@ -45,8 +61,24 @@ resource "aws_cloudwatch_log_group" "purge_log_group" {
   name = "/ecs/${var.stack_name}-purge-output"
 }
 
+resource "aws_ecr_repository" "purge_repository" {
+  name                 = "${var.stack_name}-purge-image"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = false
+  }
+}
+
+output "ecr_url" {
+  value = aws_ecr_repository.purge_repository.repository_url
+}
+
 resource "aws_ecs_cluster" "purge_cluster" {
   name = "${var.stack_name}-purge-cluster"
+}
+output "purge_cluster" {
+  value = aws_ecs_cluster.purge_cluster.arn
 }
 
 resource "aws_ecs_task_definition" "purge_task_def" {
@@ -55,14 +87,14 @@ resource "aws_ecs_task_definition" "purge_task_def" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "1024"
   memory                   = "2048"
-  task_role_arn            = "${aws_iam_role.purge_role.arn}"
-  execution_role_arn       = "${aws_iam_role.purge_role.arn}"
+  task_role_arn            = aws_iam_role.purge_role.arn
+  execution_role_arn       = aws_iam_role.purge_role.arn
 
   container_definitions = <<DEFINITION
 [
   {
     "name": "${var.stack_name}-purge-task",
-    "image": "jpbarto/aws_holy_hand_grenade:latest",
+    "image": "${aws_ecr_repository.purge_repository.repository_url}:latest",
     "cpu": 1024,
     "memory": 2048,
     "essential": true,
@@ -96,6 +128,8 @@ resource "aws_ecs_task_definition" "purge_task_def" {
 ]
 DEFINITION
 }
-
+output "task_arn" {
+  value = aws_ecs_task_definition.purge_task_def.arn
+}
 
 
