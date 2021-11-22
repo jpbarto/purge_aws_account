@@ -41,6 +41,10 @@ fi
 
 # generate a preset to protect resources with 'Isengard' in the name
 cat >>$CONF_FILE <<EOF
+resource-types:
+  excludes:
+  - S3Object
+
 presets:
   okta:
     filters:
