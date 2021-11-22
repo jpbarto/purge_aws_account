@@ -49,6 +49,11 @@ resource "aws_iam_role" "purge_role" {
   ]
 }
 EOF
+
+  tags = {
+    DO-NOT-DELETE   = "true",
+    terraform-stack = "${var.stack_name}"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "purge_admin_permissions" {
@@ -59,6 +64,10 @@ resource "aws_iam_role_policy_attachment" "purge_admin_permissions" {
 # purge ECS cluster
 resource "aws_cloudwatch_log_group" "purge_log_group" {
   name = "/ecs/${var.stack_name}-purge-output"
+  tags = {
+    DO-NOT-DELETE   = "true",
+    terraform-stack = "${var.stack_name}"
+  }
 }
 
 resource "aws_ecr_repository" "purge_repository" {
@@ -68,6 +77,11 @@ resource "aws_ecr_repository" "purge_repository" {
   image_scanning_configuration {
     scan_on_push = false
   }
+
+  tags = {
+    DO-NOT-DELETE   = "true",
+    terraform-stack = "${var.stack_name}"
+  }
 }
 
 output "ecr_url" {
@@ -76,6 +90,10 @@ output "ecr_url" {
 
 resource "aws_ecs_cluster" "purge_cluster" {
   name = "${var.stack_name}-purge-cluster"
+  tags = {
+    DO-NOT-DELETE   = "true",
+    terraform-stack = "${var.stack_name}"
+  }
 }
 output "purge_cluster" {
   value = aws_ecs_cluster.purge_cluster.arn
@@ -127,6 +145,11 @@ resource "aws_ecs_task_definition" "purge_task_def" {
   }
 ]
 DEFINITION
+
+  tags = {
+    DO-NOT-DELETE   = "true",
+    terraform-stack = "${var.stack_name}"
+  }
 }
 output "task_arn" {
   value = aws_ecs_task_definition.purge_task_def.arn
