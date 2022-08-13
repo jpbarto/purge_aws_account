@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+defaults:
+  run:
+    shell: bash
+    working-directory: code/purge-aws
+
 jobs:
 
   build:
@@ -14,5 +19,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build the purge-aws image
+      run: docker build . --file Dockerfile --tag purge-aws:$(date +%s)
