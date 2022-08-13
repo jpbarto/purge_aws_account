@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+    purge-aws-task:
+        env_file: .env
+        image: ${DOCKER_REGISTRY}/purge-aws
+        platform: linux/amd64
+        build:
+            context: .
+            dockerfile: purge-aws.dockerfile
