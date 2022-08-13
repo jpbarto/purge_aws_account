@@ -1,9 +1,12 @@
-version: '3'
+version: '3.8'
 
 services:
     purge-aws-task:
         env_file: .env
-        image: ${DOCKER_REGISTRY}/purge-aws
+        # image: ${DOCKER_REGISTRY}/purge-aws
+        image: nginx
+        # x-aws-policies:
+        #     - arn:aws:iam::aws:policy/AdministratorAccess
         platform: linux/amd64
         build:
             context: .
