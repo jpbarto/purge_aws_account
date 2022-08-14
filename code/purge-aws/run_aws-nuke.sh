@@ -17,7 +17,7 @@ echo "Running aws-nuke..."
     # -c /tmp/aws-nuke.conf \
     # --profile default
 timeout -s 9 14400 aws-nuke \
-    -c /tmp/aws-nuke.conf \
-    --profile default
+    --force \
+    -c /tmp/aws-nuke.conf
 
 echo "aws-nuke run complete"%

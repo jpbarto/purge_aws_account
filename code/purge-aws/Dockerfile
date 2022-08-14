@@ -12,4 +12,8 @@ RUN chown aws-nuke /*.sh && chmod 0755 /*.sh
 
 USER aws-nuke
 
+# configure aws cli
+RUN mkdir /home/aws-nuke/.aws
+COPY aws-cli-config /home/aws-nuke/.aws/config
+
 ENTRYPOINT [ "/run_aws-nuke.sh" ]
