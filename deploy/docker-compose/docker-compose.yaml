@@ -1,9 +1,9 @@
-version: '3.8'
+version: '3.0'
 
 services:
     purge-aws-task:
-        env_file: .env
+        # env_file: .env
         image: ghcr.io/jpbarto/purge-aws
         # x-aws-policies:
         #     - arn:aws:iam::aws:policy/AdministratorAccess
-        platform: linux/amd64
+        # platform: linux/amd64
