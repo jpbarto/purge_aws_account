@@ -5,6 +5,9 @@ set -e
 echo "Configuring environment to nuke AWS account"
 env
 
+echo "generating aws-nuke configuration file..."
+/gen_aws-nuke_config_all_rsrc.sh > /tmp/aws-nuke.conf
+
 echo "aws-nuke configuration file follows..."
 cat /tmp/aws-nuke.conf
 echo "END OF FILE"
