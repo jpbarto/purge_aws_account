@@ -7,7 +7,7 @@ ECS_DOCKER_CONTEXT=awscluster
 REGION=${AWS_DEFAULT_REGION}
 ACCT_NO=$(aws sts get-caller-identity --query 'Account' --output text)
 DOCKER_REGISTRY=${ACCT_NO}.dkr.ecr.${REGION}.amazonaws.com
-PROJECT_NAME=DONOTDELETE-PurgeAWS-$(date "+%Y%m%d-%H%M")
+PROJECT_NAME=DO-NOT-DELETE-PurgeAWS-$(date "+%Y%m%d-%H%M")
 
 aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ACCT_NO}.dkr.ecr.${REGION}.amazonaws.com
 # REPO_URI=$(aws ecr create-repository --repository-name s3locust --region ${REGION} --query 'repository.repositoryUri' --output text)
