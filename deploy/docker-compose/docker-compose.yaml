@@ -4,6 +4,6 @@ services:
     purge-aws-task:
         # env_file: .env
         image: ghcr.io/jpbarto/purge-aws
-        # x-aws-policies:
-        #     - arn:aws:iam::aws:policy/AdministratorAccess
+        x-aws-policies:
+            - arn:aws:iam::aws:policy/AdministratorAccess
         # platform: linux/amd64
