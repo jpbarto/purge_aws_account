@@ -13,11 +13,12 @@ cat /tmp/aws-nuke.conf
 echo "END OF FILE"
 
 echo "Running aws-nuke..."
-# timeout -s 9 14400 aws-nuke --force --no-dry-run \
-    # -c /tmp/aws-nuke.conf \
-    # --profile default
 timeout -s 9 14400 aws-nuke \
-    --force \
-    -c /tmp/aws-nuke.conf
+    --force --no-dry-run \
+    -c /tmp/aws-nuke.conf 
+
+# timeout -s 9 14400 aws-nuke \
+#     --force \
+#     -c /tmp/aws-nuke.conf
 
 echo "aws-nuke run complete"%
