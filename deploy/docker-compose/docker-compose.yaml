@@ -3,11 +3,7 @@ version: '3.8'
 services:
     purge-aws-task:
         env_file: .env
-        # image: ${DOCKER_REGISTRY}/purge-aws
-        image: nginx
+        image: ghcr.io/jpbarto/purge-aws
         # x-aws-policies:
         #     - arn:aws:iam::aws:policy/AdministratorAccess
         platform: linux/amd64
-        build:
-            context: .
-            dockerfile: purge-aws.dockerfile
