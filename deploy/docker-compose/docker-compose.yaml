@@ -3,6 +3,8 @@ version: '3.0'
 services:
     purge-aws-task:
         # env_file: .env
+        environment:
+            - AWS_NUKE_DELETE=NODELETE
         image: ghcr.io/jpbarto/purge-aws
         x-aws-policies:
             - arn:aws:iam::aws:policy/AdministratorAccess
