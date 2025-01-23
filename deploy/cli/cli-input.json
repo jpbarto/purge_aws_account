@@ -1,0 +1,46 @@
+{
+    "capacityProviderStrategy": [
+        {
+            "capacityProvider": "FARGATE_SPOT"
+        }
+    ],
+    "count": 1,
+    "enableECSManagedTags": true,
+    "enableExecuteCommand": false,
+    "overrides": {
+        "containerOverrides": [
+            {
+                "name": "purge-aws",
+                "environment": [
+                    {
+                        "name": "AN_ENV_VAR",
+                        "value": "AN_ENV_VAR_VAL"
+                    }
+                ]
+            }
+        ]
+    },
+    "placementConstraints": [
+        {
+            "type": "memberOf",
+            "expression": ""
+        }
+    ],
+    "placementStrategy": [
+        {
+            "type": "binpack",
+            "field": ""
+        }
+    ],
+    "platformVersion": "",
+    "propagateTags": "NONE",
+    "referenceId": "",
+    "startedBy": "",
+    "tags": [
+        {
+            "key": "",
+            "value": ""
+        }
+    ],
+    "taskDefinition": ""
+}
