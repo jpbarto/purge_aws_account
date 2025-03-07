@@ -1,4 +1,4 @@
-FROM docker pull ghcr.io/ekristen/aws-nuke:v3.48.2-3-g4d23d48-amd64
+FROM ghcr.io/ekristen/aws-nuke:v3.48.2-3-g4d23d48-amd64
 
 USER root
 
