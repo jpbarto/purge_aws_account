@@ -3,7 +3,7 @@
 set -e
 
 CONF_FILE=/tmp/aws-nuke_all.yml
-REGIONS=$(aws ec2 describe-regions --region us-east-1 --query 'Regions[].RegionName' --output text)
+REGIONS=$(aws ec2 describe-regions --region us-east-1 --query 'Regions[?RegionOptState!=`DISABLED`].RegionName' --output text)
 TARGET_ACCOUNT=$(aws sts get-caller-identity --query 'Account' --output text)
 RSRC_TYPES=$(aws-nuke resource-types | tr -d '\r')
 
@@ -12,11 +12,20 @@ cat > $CONF_FILE <<EOF
 account-blocklist:
   - "012345678901"
 
-feature-flags:
-  disable-deletion-protection:
-    RDSInstance: true
-    EC2Instance: true
-    CloudformationStack: true
+settings:
+  EC2Image:
+    IncludeDisabled: true
+    IncludeDeprecated: true
+    DisableDeregistrationProtection: true
+  EC2Instance:
+    DisableStopProtection: true
+    DisableDeletionProtection: true
+  RDSInstance:
+    DisableDeletionProtection: true
+  CloudFormationStack:
+    DisableDeletionProtection: true
+  DynamoDBTable:
+    DisableDeletionProtection: true
 
 accounts:
   "${TARGET_ACCOUNT}":
@@ -41,6 +50,7 @@ fi
 
 # generate a preset to protect resources with 'Isengard' in the name
 cat >>$CONF_FILE <<EOF
+
 resource-types:
   excludes:
   - S3Object

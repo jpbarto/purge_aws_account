@@ -1,4 +1,4 @@
-FROM quay.io/rebuy/aws-nuke:latest
+FROM ghcr.io/ekristen/aws-nuke:latest
 
 USER root
 
