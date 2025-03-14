@@ -127,12 +127,12 @@ presets:
         - property: DefaultVPC
           value: "true"
 
-  tagged_dnd: # prevent deletion of anything tagged with a tag named 'DO-NOT-DELETE'
+  tagged_dnd: # prevent deletion of anything tagged with a tag named 'DO-NOT-DELETE' and a value of 'true'
     filters:
       __global__:
         - property: tag:DO-NOT-DELETE
           type: regex
-          value: ".*(?i)DO-NOT-DELETE.*"
+          value: "(?i)true"
 
   named_dnd: # prevent deletion of anything named 'DO-NOT-DELETE'
     filters:
