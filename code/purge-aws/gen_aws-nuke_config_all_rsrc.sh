@@ -27,6 +27,9 @@ settings:
   DynamoDBTable:
     DisableDeletionProtection: true
 
+bypass-alias-check-accounts:
+  - ${TARGET_ACCOUNT}
+
 accounts:
   "${TARGET_ACCOUNT}":
     presets:
