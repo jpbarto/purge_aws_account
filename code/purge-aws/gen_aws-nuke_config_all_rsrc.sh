@@ -37,6 +37,7 @@ accounts:
     - organization
     - tagged_dnd
     - named_dnd
+    - named_ctrl_tower
 
 regions:
 EOF
@@ -143,6 +144,13 @@ presets:
         - property: Name
           type: regex
           value: ".*(?i)DO-NOT-DELETE.*"
+
+  named_ctrl_tower: # prevent deletion of anything named 'ControlTower'
+    filters:
+      __global__:
+        - property: Name
+          type: regex
+          value: ".*(?i)ControlTower.*"
 EOF
 
 # # generate a preset to protect resources with a DO-NOT-DELETE tag set
