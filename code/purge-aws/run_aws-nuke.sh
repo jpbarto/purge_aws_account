@@ -17,11 +17,13 @@ if [ $AWS_NUKE_DELETE = "DELETE" ]; then
     echo AWS_NUKE_DELETE environment variable is set to "DELETE", all resources will be deleted...
     timeout -s 9 14400 aws-nuke run \
         --force --no-dry-run \
+        --no-alias-check \
         -c /tmp/aws-nuke.conf
 else
     echo AWS_NUKE_DELETE environment variable not set to "DELETE", scanning mode only...
     timeout -s 9 14400 aws-nuke run \
         --force \
+        --no-alias-check \
         -c /tmp/aws-nuke.conf
 fi
 
