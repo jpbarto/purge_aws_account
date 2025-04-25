@@ -5,8 +5,8 @@ set -e
 echo "Configuring environment to nuke AWS account"
 env
 
-echo "generating aws-nuke configuration file..."
-/gen_aws-nuke_config_all_rsrc.sh > /tmp/aws-nuke.conf
+echo "Copying AWS Nuke configuration file ${AWS_NUKE_CONFIG_KEY} from S3 bucket ${AWS_NUKE_CONFIG_BUCKET}"
+aws s3 cp s3://${AWS_NUKE_CONFIG_BUCKET}/${AWS_NUKE_CONFIG_KEY} /tmp/aws-nuke.conf
 
 echo "aws-nuke configuration file follows..."
 cat /tmp/aws-nuke.conf
