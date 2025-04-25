@@ -8,6 +8,10 @@ variable "stack_name" {
   default     = "purge-aws"
 }
 
+variable "config_file" {
+  description = "AWS Nuke config file to be used during purge execution"
+}
+
 ########
 ##
 ## CONFIGURATION
@@ -19,10 +23,24 @@ provider "aws" {}
 data "aws_region" "current" {}
 
 ########
-## 
+##
 ## RESOURCES
 ##
 ########
+resource "random_uuid" "suffix" {
+}
+
+resource "aws_s3_bucket" "purge_bucket" {
+  bucket = "${var.stack_name}-config-${random_uuid.suffix.result}"
+}
+
+resource "aws_s3_object" "purge_config" {
+  bucket = aws_s3_bucket.purge_bucket.id
+  key = "purge_config"
+  source = var.config_file
+  etag = filemd5(var.config_file)
+}
+
 resource "aws_iam_role" "purge_role" {
   name = "${var.stack_name}-PURGERole"
 
@@ -97,6 +115,14 @@ resource "aws_ecs_task_definition" "purge_task_def" {
         {
             "name": "AWS_NUKE_DELETE",
             "value": "false"
+        },
+        {
+            "name": "AWS_NUKE_CONFIG_BUCKET",
+            "value": "${aws_s3_bucket.purge_bucket.id}"
+        },
+        {
+            "name": "AWS_NUKE_CONFIG_KEY",
+            "value": "purge_config"
         },
         {
             "name": "PURGE_ECS_CLUSTER",
