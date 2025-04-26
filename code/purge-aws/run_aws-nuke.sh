@@ -2,11 +2,14 @@
 
 set -e
 
+AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+
 echo "Configuring environment to nuke AWS account"
 env
 
 echo "Copying AWS Nuke configuration file ${AWS_NUKE_CONFIG_KEY} from S3 bucket ${AWS_NUKE_CONFIG_BUCKET}"
-aws s3 cp s3://${AWS_NUKE_CONFIG_BUCKET}/${AWS_NUKE_CONFIG_KEY} /tmp/aws-nuke.conf
+aws s3 cp s3://${AWS_NUKE_CONFIG_BUCKET}/${AWS_NUKE_CONFIG_KEY} /tmp/aws-nuke.conf.tmpl
+sed -e s/TARGET_ACCOUNT_ID/${AWS_ACCOUNT_ID}/g /tmp/aws-nuke.conf.tmpl > /tmp/aws-nuke.conf
 
 echo "aws-nuke configuration file follows..."
 cat /tmp/aws-nuke.conf
