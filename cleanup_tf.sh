@@ -15,4 +15,4 @@ ACCT_NO=$(aws sts get-caller-identity --query 'Account' --output text)
 
 export AWS_DEFAULT_REGION=${REGION}
 cd deploy/terraform
-terraform destroy -auto-approve -tfvar-file "$ACCT_NO/vars.tfvar" -state $ACCT_NO
+terraform destroy -auto-approve -var-file "$ACCT_NO/vars.tfvar" -state "$ACCT_NO/terraform.state"
