@@ -27,8 +27,8 @@ EOF
 terraform init
 terraform apply -auto-approve -var-file $ACCT_NO/vars.tfvar --state-out "$ACCT_NO/terraform.state"
 
-PURGE_CLUSTER=$(terraform output -raw purge_cluster)
-TASK_ARN=$(terraform output -raw task_arn)
+PURGE_CLUSTER=$(terraform output -state "$ACCT_NO/terraform.state" -raw purge_cluster)
+TASK_ARN=$(terraform output -state "$ACCT_NO/terraform.state" -raw task_arn)
 SUBNET_ID=$(aws ec2 describe-subnets --filters 'Name=availability-zone,Values='$REGION'a' 'Name=default-for-az,Values=true' --query 'Subnets[0].SubnetId' --output text)
 aws ecs run-task \
     --task-definition ${TASK_ARN} \
