@@ -26,4 +26,5 @@ aws ecs run-task \
     --region ${REGION} \
     --cluster ${PURGE_CLUSTER} \
     --launch-type FARGATE \
-    --network-configuration 'awsvpcConfiguration={subnets=["'$SUBNET_ID'"],assignPublicIp="ENABLED"}'
+    --network-configuration 'awsvpcConfiguration={subnets=["'$SUBNET_ID'"],assignPublicIp="ENABLED"}' \
+    --overrides 'containerOverrides=[{name=purge-aws-purge-task,environment=[{name="AWS_NUKE_DELETE", value="DELETE"}]}]'
