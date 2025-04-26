@@ -4,6 +4,9 @@ set -e
 
 REGION="${AWS_DEFAULT_REGION:-us-east-2}"
 ACCT_NO=$(aws sts get-caller-identity --query 'Account' --output text)
+NUKE_CONF=$(realpath $1)
+
+echo Wiping AWS account with configuration file $NUKE_CONF
 
 # This script will 
 # - use the purge container image hosted on GitHub
@@ -16,7 +19,7 @@ ACCT_NO=$(aws sts get-caller-identity --query 'Account' --output text)
 export AWS_DEFAULT_REGION=${REGION}
 cd deploy/terraform
 terraform init
-terraform apply -auto-approve
+terraform apply -auto-approve -var "config_file=$NUKE_CONF"
 
 PURGE_CLUSTER=$(terraform output -raw purge_cluster)
 TASK_ARN=$(terraform output -raw task_arn)

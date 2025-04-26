@@ -92,8 +92,8 @@ resource-types:
     - RDSDBCluster
     - RDSInstance
     - DynamoDBTable
-    - EKSCluster 
-    - LambdaFunction 
+    - EKSCluster
+    - LambdaFunction
 
 presets:
   organization:
