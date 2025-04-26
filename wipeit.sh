@@ -18,8 +18,14 @@ echo Wiping AWS account with configuration file $NUKE_CONF
 
 export AWS_DEFAULT_REGION=${REGION}
 cd deploy/terraform
+
+mkdir ${ACCT_NO}
+cat >${ACCT_NO}/vars.tfvar <<EOF
+config_file = $NUKE_CONF
+EOF
+
 terraform init
-terraform apply -auto-approve -var "config_file=$NUKE_CONF"
+terraform apply -auto-approve -var-file $ACCT_NO/vars.tfvar --state-out $ACCT_NO
 
 PURGE_CLUSTER=$(terraform output -raw purge_cluster)
 TASK_ARN=$(terraform output -raw task_arn)
